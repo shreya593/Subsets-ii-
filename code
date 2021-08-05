@@ -1,0 +1,28 @@
+//https://leetcode.com/problems/subsets-ii/
+class Solution {
+public:
+    vector<vector<int>> subsets;
+    void bk(vector<int> &subset,int i,vector<int> &nums,bool prev){
+        if(i==nums.size()){
+            subsets.push_back(subset);
+            return;
+        }
+        //do not take ith element,make prev false if element not included
+        bk(subset,i+1,nums,false);
+        //if current element == previous element then if we ignore previous then ignore current also
+        if(i>0 && nums[i]==nums[i-1] && (!prev)){
+            return;
+        }
+        subset.push_back(nums[i]);
+        //take ith element make prev true if element included
+        bk(subset,i+1,nums,true);
+        subset.pop_back();
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        //sort only for subsetii question not for subset question
+        sort(nums.begin(),nums.end());
+        vector<int> empty;
+        bk(empty,0,nums,false);
+        return subsets;
+    }
+};
